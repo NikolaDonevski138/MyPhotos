@@ -1,5 +1,5 @@
 //import {dalay} from 'redux-saga'
-import {takeEvery, put} from 'redux-saga/effects';
+import {takeEvery, put,all,fork} from 'redux-saga/effects';
 import jsonplaceholder from '../redux/apis/jsonplaceholder';
 
 function* postsAsync() {
@@ -27,12 +27,27 @@ function* commentsAsync() {
   }
 }
 
-export function* watchPost() {
+function* watchPost() {
   yield takeEvery('FETCH_POST', postsAsync);
 }
 
 //To do: include axios
 //fix catch statement
-export function* watchComments() {
+ function* watchComments() {
   yield takeEvery('FETCH_COMMENTS', commentsAsync);
+}
+
+// export default function* rootSaga(){
+//   yield all([
+//     watchPost(),
+//     watchComments()
+//    ])
+// }
+
+
+export default function* rootSaga(){
+  yield all([
+    fork(watchPost),
+    fork(watchComments)
+  ])
 }
