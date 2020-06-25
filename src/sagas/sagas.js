@@ -27,6 +27,17 @@ function* commentsAsync() {
   }
 }
 
+function* addPhotoAsync(action){
+  try {
+    
+    
+    yield put({type:'ADD_PHOTO_ASYNC', payload: action.payload})
+  } catch(e) {
+    console.log(e)
+  }
+}
+
+
 function* watchPost() {
   yield takeEvery('FETCH_POST', postsAsync);
 }
@@ -36,6 +47,11 @@ function* watchPost() {
  function* watchComments() {
   yield takeEvery('FETCH_COMMENTS', commentsAsync);
 }
+
+function* watchAddPhoto() {
+  yield takeEvery('ADD_PHOTO',addPhotoAsync)
+}
+
 
 // export default function* rootSaga(){
 //   yield all([
@@ -48,6 +64,7 @@ function* watchPost() {
 export default function* rootSaga(){
   yield all([
     fork(watchPost),
-    fork(watchComments)
+    fork(watchComments),
+    fork(watchAddPhoto)
   ])
 }

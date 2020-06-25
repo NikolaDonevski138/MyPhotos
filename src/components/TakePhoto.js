@@ -1,11 +1,23 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect,useReducer} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import ImagePicker from 'react-native-image-picker';
+import {useDispatch, useSelector} from 'react-redux'
+
 
 const TakePhoto = () => {
   const [resources, setResources] = useState({});
 
-  selectFile = () => {
+  const myPhotos = useSelector(state => state.photos)
+  const dispatch = useDispatch();
+
+   useEffect(() => {
+       dispatch({type: 'ADD_PHOTO', payload:resources})
+   },[resources])
+
+
+   console.log(myPhotos);
+
+ const selectFile = () => {
     const options = {
       title: 'Select Image',
       storageOptions: {
@@ -15,14 +27,15 @@ const TakePhoto = () => {
     };
 
     ImagePicker.showImagePicker(options, res => {
-      console.log('Response = ', res);
-
       if (res.didCancel) {
         console.log('User cancelled image picker');
       } else {
-        let source = res;
-        setResources(source);
-        console.log(source, 'source');
+        setResources({
+          uri: res.uri,
+          latitude: res.latitude,
+          longitude: res.longitude,
+          fileName: res.fileName
+        });
       }
     });
   };

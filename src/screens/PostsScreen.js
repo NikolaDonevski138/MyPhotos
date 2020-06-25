@@ -7,14 +7,10 @@ const PostsScreen = () => {
   const posts = useSelector(state => state.posts);
   const dispatch = useDispatch();
 
-  console.log(posts)
-
   useEffect(() => {
     dispatch({type: 'FETCH_POST'});
   },[]);
 
-  console.log(posts, 'postovi');
-  
   return (
     <View>
       <ListItem data={posts.value}  titleText="Title:" text="Post:"/>

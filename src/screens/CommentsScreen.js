@@ -7,7 +7,6 @@ const CommentsScreen = () => {
   const comments = useSelector(state => state.comments);
   const dispatch = useDispatch();
 
-  console.log(comments,'komentarii')
 
   useEffect(() => {
     dispatch({type: 'FETCH_COMMENTS'});
