@@ -1,12 +1,8 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import TakePhoto from '../components/TakePhoto';
 
 const MyPhotosScreen = () => {
-  return (
-    <View>
-      <Text>MyPhotosScreen</Text>
-    </View>
-  );
+  return <TakePhoto />;
 };
 
 export default MyPhotosScreen;
