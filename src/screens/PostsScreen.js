@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
-import {Text, View, FlatList, StyleSheet} from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
+import React, { useEffect } from 'react';
+import { Text, View, FlatList, StyleSheet } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 import ListItem from '../components/ListItem'
 
 const PostsScreen = () => {
@@ -8,12 +8,12 @@ const PostsScreen = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({type: 'FETCH_POST'});
-  },[]);
+    dispatch({ type: 'FETCH_POST' });
+  }, []);
 
   return (
     <View>
-      <ListItem data={posts.value}  titleText="Title:" text="Post:"/>
+      <ListItem data={posts.value} titleText="Title:" text="Post:" />
     </View>
   );
 };

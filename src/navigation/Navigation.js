@@ -1,5 +1,5 @@
 import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import CommentsScreen from '../screens/CommentsScreen';
 import MyPhotosScreen from '../screens/MyPhotosScreen';
 import PhotosScreen from '../screens/PhotosScreen';
@@ -18,4 +18,3 @@ export const Navigation = () => {
   );
 };
 
-//Bad Naming convention (task:this will be fix in future)

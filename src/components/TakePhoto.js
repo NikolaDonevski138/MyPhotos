@@ -1,23 +1,35 @@
-import React, {useState,useEffect,useReducer} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+//import * as R from 'ramda'
+import React, { useState, useEffect } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
+import { FlatList } from 'react-native-gesture-handler';
+import Address from './Address'
 
 
 const TakePhoto = () => {
   const [resources, setResources] = useState({});
 
-  const myPhotos = useSelector(state => state.photos)
+  const myPhotos = useSelector(state => state.photos);
   const dispatch = useDispatch();
 
-   useEffect(() => {
-       dispatch({type: 'ADD_PHOTO', payload:resources})
-   },[resources])
+  useEffect(() => {
+    dispatch({ type: 'ADD_PHOTO', payload: resources });
+  }, [resources]);
 
 
-   console.log(myPhotos);
+  const imageResource = myPhotos.map(imageData => imageData.cameraInfo);
+  const filteredImageUri = imageResource.filter(image => Object.keys(image).length !== 0);
 
- const selectFile = () => {
+
+  const selectFile = () => {
     const options = {
       title: 'Select Image',
       storageOptions: {
@@ -34,19 +46,36 @@ const TakePhoto = () => {
           uri: res.uri,
           latitude: res.latitude,
           longitude: res.longitude,
-          fileName: res.fileName
+          fileName: res.fileName,
         });
       }
     });
   };
 
+  const renderHelper = ({ item }) => {
+
+    console.log(item, 'itemcinja')
+
+    const { uri } = item
+    const { latitude } = item
+    const { longitude } = item
+    return (
+      <View>
+        <Image style={{ width: 150, height: 150 }} source={{ uri: uri }} />
+        <Address latitude={latitude} longitude={longitude} />
+      </View>
+    )
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.container}>
-        <Image
-          source={{uri: resources.uri}}
-          style={{width: 200, height: 200}}
+        <FlatList
+          data={filteredImageUri}
+          renderItem={renderHelper}
+
         />
+
         <TouchableOpacity onPress={selectFile} style={styles.button}>
           <Text style={styles.buttonText}>Select File</Text>
         </TouchableOpacity>

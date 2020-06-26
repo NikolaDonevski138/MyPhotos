@@ -4,7 +4,7 @@ import {View, Text} from 'react-native';
 const PhotosScreen = () => {
   return (
     <View>
-      <Text>PhotosScreend</Text>
+      <Text>PhotosScreendd</Text>
     </View>
   );
 };
