@@ -35,6 +35,23 @@ function* addPhotoAsync(action) {
   }
 }
 
+function* addAddressAsync(action) {
+  console.log('addAddressAsync')
+
+  try {
+    const response = yield fetch(`https://eu1.locationiq.com/v1/reverse.php?key=pk.0ca27b9f7c9d3ecd8767b915f826a8b6&lat=${action.payload.latitude}&lon=${action.payload.longitude}&format=json`)
+      .then(response => response.json())
+
+    console.log(response, 'responsot')
+    yield put({ type: 'ADD_ADDRESS_ASYNC', payload: response })
+
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+//key need be to other folder
+
 
 function* watchPost() {
   yield takeEvery('FETCH_POST', postsAsync);
@@ -49,10 +66,15 @@ function* watchAddPhoto() {
   yield takeEvery('ADD_PHOTO', addPhotoAsync)
 }
 
+function* watchAddress() {
+  yield takeEvery('ADD_ADDRESS', addAddressAsync)
+}
+
 export default function* rootSaga() {
   yield all([
     fork(watchPost),
     fork(watchComments),
-    fork(watchAddPhoto)
+    fork(watchAddPhoto),
+    fork(watchAddress)
   ])
 }

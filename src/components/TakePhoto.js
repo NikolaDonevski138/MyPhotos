@@ -60,26 +60,28 @@ const TakePhoto = () => {
     const { latitude } = item
     const { longitude } = item
     return (
-      <View>
+      <View style={styles.imageContainer}>
         <Image style={{ width: 150, height: 150 }} source={{ uri: uri }} />
-        <Address latitude={latitude} longitude={longitude} />
+        <View style={styles.address}>
+          <Address latitude={latitude} longitude={longitude} />
+        </View>
       </View>
     )
   }
 
   return (
     <View style={styles.container}>
-      <View style={styles.container}>
-        <FlatList
-          data={filteredImageUri}
-          renderItem={renderHelper}
 
-        />
+      <FlatList
+        data={filteredImageUri}
+        renderItem={renderHelper}
 
-        <TouchableOpacity onPress={selectFile} style={styles.button}>
-          <Text style={styles.buttonText}>Select File</Text>
-        </TouchableOpacity>
-      </View>
+      />
+
+      <TouchableOpacity onPress={selectFile} style={styles.button}>
+        <Text style={styles.buttonText}>Select File</Text>
+      </TouchableOpacity>
+
     </View>
   );
 };
@@ -106,6 +108,22 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#fff',
   },
+  imageContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 15,
+    paddingVertical: 30,
+    borderBottomColor: '#ccc',
+    borderBottomWidth: 2
+  },
+  address: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 20
+
+  }
 });
 
 export default TakePhoto;
