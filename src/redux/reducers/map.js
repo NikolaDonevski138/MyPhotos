@@ -1,7 +1,8 @@
 export default (state={},action) => {
-    switch(action.payload){
+    switch(action.type){
         case 'ADD_MAP_ASYNC':
-            return {...state,map:action.payload}
+            console.log(action.payload,'s')
+            return {...state,url:action.payload}
     }
     return state
 }

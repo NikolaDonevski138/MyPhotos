@@ -51,9 +51,7 @@ function* addAddressAsync(action) {
 function* addMapAsync(action) {
   try {
     const response = yield fetch(`https://maps.locationiq.com/v2/staticmap?key=pk.0ca27b9f7c9d3ecd8767b915f826a8b6&center=${action.payload.latitude},${action.payload.longitude}&zoom=16&size=480x480&markers=${action.payload.latitude},${action.payload.longitude}`)
-      .then(result => result.json())
-      console.log(response)
-      yield put({type:'ADD_MAP_ASYNC',payload:response})
+      yield put({type:'ADD_MAP_ASYNC',payload:response.url})
   } catch(e){
     console.log(e)
   }
