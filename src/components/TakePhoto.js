@@ -14,19 +14,26 @@ import { FlatList } from 'react-native-gesture-handler';
 import Address from './Address'
 
 
-const TakePhoto = () => {
+const TakePhoto = ({navigation}) => {
+  
+ 
+  
   const [resources, setResources] = useState({});
 
   const myPhotos = useSelector(state => state.photos);
+  const addresses = useSelector(state => state.addresses);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: 'ADD_PHOTO', payload: resources });
+    if(Object.keys(resources).length !==0){
+      dispatch({ type: 'ADD_PHOTO', payload: resources });
+    }
   }, [resources]);
 
 
+
   const imageResource = myPhotos.map(imageData => imageData.cameraInfo);
-  const filteredImageUri = imageResource.filter(image => Object.keys(image).length !== 0);
+  
 
 
   const selectFile = () => {
@@ -52,33 +59,36 @@ const TakePhoto = () => {
     });
   };
 
-  const renderHelper = ({ item }) => {
+  const renderHelper = ({ item, index }) => {
 
-    console.log(item, 'itemcinja')
 
-    const { uri } = item
-    const { latitude } = item
-    const { longitude } = item
+    const { uri,latitude,longitude } = item
+ 
     return (
+      <TouchableOpacity onPress={() => {navigation.navigate('Map',{
+        latitude:latitude,
+        longitude:longitude,
+        uri:uri
+      })}}>
       <View style={styles.imageContainer}>
-        <Image style={{ width: 150, height: 150 }} source={{ uri: uri }} />
+        <Image style={{ width: 150, height: 150 }} source={{ uri }} />
         <View style={styles.address}>
-          <Address latitude={latitude} longitude={longitude} />
+          <Address latitude={latitude} longitude={longitude} address={addresses[index]} />
         </View>
       </View>
+      </TouchableOpacity>
     )
   }
-
+  
   return (
     <View style={styles.container}>
 
       <FlatList
-        data={filteredImageUri}
+        data={imageResource}
         renderItem={renderHelper}
-
+        keyExtractor={item => item.fileName}
       />
-
-      <TouchableOpacity onPress={selectFile} style={styles.button}>
+     <TouchableOpacity onPress={selectFile} style={styles.button}>
         <Text style={styles.buttonText}>Select File</Text>
       </TouchableOpacity>
 

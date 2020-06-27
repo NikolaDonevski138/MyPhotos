@@ -36,16 +36,25 @@ function* addPhotoAsync(action) {
 }
 
 function* addAddressAsync(action) {
-  console.log('addAddressAsync')
+  
 
   try {
     const response = yield fetch(`https://eu1.locationiq.com/v1/reverse.php?key=pk.0ca27b9f7c9d3ecd8767b915f826a8b6&lat=${action.payload.latitude}&lon=${action.payload.longitude}&format=json`)
-      .then(response => response.json())
-
-    console.log(response, 'responsot')
+      .then(result => result.json())
     yield put({ type: 'ADD_ADDRESS_ASYNC', payload: response })
 
   } catch (e) {
+    console.log(e)
+  }
+}
+
+function* addMapAsync(action) {
+  try {
+    const response = yield fetch(`https://maps.locationiq.com/v2/staticmap?key=pk.0ca27b9f7c9d3ecd8767b915f826a8b6&center=${action.payload.latitude},${action.payload.longitude}&zoom=16&size=480x480&markers=${action.payload.latitude},${action.payload.longitude}`)
+      .then(result => result.json())
+      console.log(response)
+      yield put({type:'ADD_MAP_ASYNC',payload:response})
+  } catch(e){
     console.log(e)
   }
 }
@@ -70,11 +79,16 @@ function* watchAddress() {
   yield takeEvery('ADD_ADDRESS', addAddressAsync)
 }
 
+function* watchMap(){
+  yield takeEvery('ADD_MAP',addMapAsync)
+}
+
 export default function* rootSaga() {
   yield all([
     fork(watchPost),
     fork(watchComments),
     fork(watchAddPhoto),
-    fork(watchAddress)
+    fork(watchAddress),
+    fork(watchMap)
   ])
 }

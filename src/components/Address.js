@@ -1,26 +1,30 @@
 import React, { useEffect } from 'react'
-import { Text } from 'react-native'
+import { Text,View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
 
 const Address = (props) => {
-
-    const addresses = useSelector(state => state.addresses);
+   
+   
     const dispatch = useDispatch();
 
-
-    const address = addresses[0].adressInfo.display_name
-
-
+    
     useEffect(() => {
         dispatch({ type: 'ADD_ADDRESS', payload: { latitude: props.latitude, longitude: props.longitude } });
-    }, [props.latitude]);
+    }, []);
 
+  const printingAddress = () => {
+    if (props.address){
+        return <Text>Location :{props.address.adressInfo.display_name}</Text>
+    }
 
-
-
+    return null;
+  }
+   
     return (
-        <Text>Location:{address}</Text>
+        <View>
+            {printingAddress()}
+        </View>
     )
 }
 

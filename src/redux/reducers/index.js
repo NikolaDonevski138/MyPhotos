@@ -3,10 +3,12 @@ import posts from './posts';
 import comments from './comments'
 import photos from './photos'
 import addresses from './addresses';
+import map from './map'
 
 export default combineReducers({
   posts: posts,
   comments: comments,
   photos: photos,
-  addresses: addresses
+  addresses: addresses,
+  map:map
 });
