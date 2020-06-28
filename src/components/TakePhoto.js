@@ -1,26 +1,13 @@
-//import * as R from 'ramda'
-import React, { useState, useEffect } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-  Button
-} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, View, TouchableOpacity, Image} from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import { useDispatch, useSelector } from 'react-redux';
-import { FlatList } from 'react-native-gesture-handler';
-import Address from './Address'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faCoffee,faPlusCircle } from '@fortawesome/free-solid-svg-icons'
-
+import {useDispatch, useSelector} from 'react-redux';
+import {FlatList} from 'react-native-gesture-handler';
+import Address from './Address';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faPlusCircle} from '@fortawesome/free-solid-svg-icons';
 
 const TakePhoto = ({navigation}) => {
-  
- 
-  
   const [resources, setResources] = useState({});
 
   const myPhotos = useSelector(state => state.photos);
@@ -28,16 +15,12 @@ const TakePhoto = ({navigation}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if(Object.keys(resources).length !==0){
-      dispatch({ type: 'ADD_PHOTO', payload: resources });
+    if (Object.keys(resources).length !== 0) {
+      dispatch({type: 'ADD_PHOTO', payload: resources});
     }
   }, [resources]);
 
-
-
   const imageResource = myPhotos.map(imageData => imageData.cameraInfo);
-  
-
 
   const selectFile = () => {
     const options = {
@@ -62,39 +45,43 @@ const TakePhoto = ({navigation}) => {
     });
   };
 
-  const renderHelper = ({ item, index }) => {
+  const renderHelper = ({item, index}) => {
+    const {uri, latitude, longitude} = item;
 
-
-    const { uri,latitude,longitude } = item
- 
     return (
-      <TouchableOpacity onPress={() => {navigation.navigate('Map',{
-        latitude:latitude,
-        longitude:longitude,
-        uri:uri
-      })}}>
-      <View style={styles.imageContainer}>
-        <Image style={{ width: 150, height: 150 }} source={{ uri }} />
-        <View style={styles.address}>
-          <Address latitude={latitude} longitude={longitude} address={addresses[index]} />
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('Map', {
+            latitude: latitude,
+            longitude: longitude,
+            uri: uri,
+          });
+        }}>
+        <View style={styles.imageContainer}>
+          <Image style={{width: 150, height: 150}} source={{uri}} />
+          <View style={styles.address}>
+            <Address
+              latitude={latitude}
+              longitude={longitude}
+              address={addresses[index]}
+            />
+          </View>
         </View>
-      </View>
       </TouchableOpacity>
-    )
-  }
-  
+    );
+  };
+
   return (
     <View style={styles.container}>
-
       <FlatList
+        showsVerticalScrollIndicator={false}
         data={imageResource}
         renderItem={renderHelper}
         keyExtractor={item => item.fileName}
       />
-     <TouchableOpacity onPress={selectFile} style={styles.icon}>
-         <FontAwesomeIcon icon={ faPlusCircle } color={ '#009688' } size={ 80 }/>
+      <TouchableOpacity onPress={selectFile} style={styles.icon}>
+        <FontAwesomeIcon icon={faPlusCircle} color={'#009688'} size={80} />
       </TouchableOpacity>
-
     </View>
   );
 };
@@ -123,20 +110,19 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     paddingVertical: 30,
     borderBottomColor: '#ccc',
-    borderBottomWidth: 2
+    borderBottomWidth: 2,
   },
   address: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 20
-
+    marginLeft: 20,
   },
-  icon:{
-    position:'absolute',
-    bottom:10,
-    right:30
-  }
+  icon: {
+    position: 'absolute',
+    bottom: 10,
+    right: 30,
+  },
 });
 
 export default TakePhoto;
