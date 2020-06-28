@@ -7,11 +7,14 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  Button
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import { useDispatch, useSelector } from 'react-redux';
 import { FlatList } from 'react-native-gesture-handler';
 import Address from './Address'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faCoffee,faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 
 
 const TakePhoto = ({navigation}) => {
@@ -88,8 +91,8 @@ const TakePhoto = ({navigation}) => {
         renderItem={renderHelper}
         keyExtractor={item => item.fileName}
       />
-     <TouchableOpacity onPress={selectFile} style={styles.button}>
-        <Text style={styles.buttonText}>Select File</Text>
+     <TouchableOpacity onPress={selectFile} style={styles.icon}>
+         <FontAwesomeIcon icon={ faPlusCircle } color={ '#009688' } size={ 80 }/>
       </TouchableOpacity>
 
     </View>
@@ -113,11 +116,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginBottom: 12,
   },
-  buttonText: {
-    textAlign: 'center',
-    fontSize: 15,
-    color: '#fff',
-  },
   imageContainer: {
     display: 'flex',
     flexDirection: 'row',
@@ -133,6 +131,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: 20
 
+  },
+  icon:{
+    position:'absolute',
+    bottom:10,
+    right:30
   }
 });
 
