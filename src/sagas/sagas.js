@@ -1,12 +1,12 @@
-import {takeEvery, put, all, fork} from 'redux-saga/effects';
+import { takeEvery, put, all, fork } from 'redux-saga/effects';
 
 function* postsAsync() {
   try {
     const posts = yield fetch(
       'https://jsonplaceholder.typicode.com/posts',
     ).then(response => response.json());
-    yield put({type: 'FETCH_POST_ASYNC', payload: posts});
-  } catch (e) {}
+    yield put({ type: 'FETCH_POST_ASYNC', payload: posts });
+  } catch (e) { }
 }
 
 function* commentsAsync() {
@@ -14,7 +14,7 @@ function* commentsAsync() {
     const comments = yield fetch(
       'https://jsonplaceholder.typicode.com/comments',
     ).then(response => response.json());
-    yield put({type: 'FETCH_COMMENTS_ASYNC', payload: comments});
+    yield put({ type: 'FETCH_COMMENTS_ASYNC', payload: comments });
   } catch (e) {
     console.log(e);
   }
@@ -22,7 +22,7 @@ function* commentsAsync() {
 
 function* addPhotoAsync(action) {
   try {
-    yield put({type: 'ADD_PHOTO_ASYNC', payload: action.payload});
+    yield put({ type: 'ADD_PHOTO_ASYNC', payload: action.payload });
   } catch (e) {
     console.log(e);
   }
@@ -32,10 +32,10 @@ function* addAddressAsync(action) {
   try {
     const response = yield fetch(
       `https://eu1.locationiq.com/v1/reverse.php?key=pk.0ca27b9f7c9d3ecd8767b915f826a8b6&lat=${
-        action.payload.latitude
+      action.payload.latitude
       }&lon=${action.payload.longitude}&format=json`,
     ).then(result => result.json());
-    yield put({type: 'ADD_ADDRESS_ASYNC', payload: response});
+    yield put({ type: 'ADD_ADDRESS_ASYNC', payload: response });
   } catch (e) {
     console.log(e);
   }
@@ -45,16 +45,28 @@ function* addMapAsync(action) {
   try {
     const response = yield fetch(
       `https://maps.locationiq.com/v2/staticmap?key=pk.0ca27b9f7c9d3ecd8767b915f826a8b6&center=${
-        action.payload.latitude
+      action.payload.latitude
       },${action.payload.longitude}&zoom=16&size=480x480&markers=${
-        action.payload.latitude
+      action.payload.latitude
       },${action.payload.longitude}`,
     );
-    yield put({type: 'ADD_MAP_ASYNC', payload: response.url});
+    yield put({ type: 'ADD_MAP_ASYNC', payload: response.url });
   } catch (e) {
     console.log(e);
   }
 }
+
+function* getPhotoAsync() {
+  try {
+    const response = yield fetch(`https://jsonplaceholder.typicode.com/photos`)
+      .then(res => res.json())
+    yield put({ type: 'GET_PHOTOS_ASYNC', payload: response })
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+
 
 function* watchPost() {
   yield takeEvery('FETCH_POST', postsAsync);
@@ -76,6 +88,11 @@ function* watchMap() {
   yield takeEvery('ADD_MAP', addMapAsync);
 }
 
+function* watchPhoto() {
+  yield takeEvery('GET_PHOTO', getPhotoAsync)
+}
+
+
 export default function* rootSaga() {
   yield all([
     fork(watchPost),
@@ -83,5 +100,6 @@ export default function* rootSaga() {
     fork(watchAddPhoto),
     fork(watchAddress),
     fork(watchMap),
+    fork(watchPhoto)
   ]);
 }
