@@ -33,21 +33,13 @@ const PhotosPlaceholder = () => {
       },
     }}>
       <Stack.Screen name="PhotosList" component={PhotosListScreen} />
-      <Stack.Screen name="Photo" component={PhotoScreen}
-      // options={({ navigation }) => ({
-      //   headerRight: () => (
-      //     <TouchableOpacity>
-      //       <Text>P</Text>
-      //     </TouchableOpacity>
-      //   )
-      // })} 
-      />
+      <Stack.Screen name="Photo" component={PhotoScreen} />
     </Stack.Navigator >
   )
 }
 
 
-const BottomTabBarNavigation = () => {
+export const Navigation = () => {
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -70,12 +62,3 @@ const BottomTabBarNavigation = () => {
   );
 };
 
-
-
-export const Navigation = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Posts" component={BottomTabBarNavigation} />
-    </Stack.Navigator>
-  )
-}
