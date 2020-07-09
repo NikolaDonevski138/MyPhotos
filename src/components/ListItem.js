@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, Text, FlatList, StyleSheet} from 'react-native';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
 
 const ListItem = props => {
-  const helperRenderItem = ({item}) => {
+  const helperRenderItem = ({ item }) => {
     return (
       <View
         style={{
@@ -39,11 +39,13 @@ const ListItem = props => {
 const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
+    width: '80%'
   },
   text: {
     color: '#737373',
     fontWeight: 'bold',
     fontSize: 16,
+
   },
   marginBetweenText: {
     marginRight: 5,

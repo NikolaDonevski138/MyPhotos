@@ -6,8 +6,8 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import reducer from './src/redux/reducers';
-import Header from './src/components/Header';
 import rootSaga from './src/sagas/sagas';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -17,12 +17,15 @@ sagaMiddleware.run(rootSaga);
 
 function App() {
   return (
+
     <Provider store={store}>
-      <NavigationContainer>
-        {/* <Header /> */}
-        <Navigation />
-      </NavigationContainer>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <Navigation />
+        </NavigationContainer>
+      </SafeAreaProvider>
     </Provider>
+
   );
 }
 

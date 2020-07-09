@@ -7,27 +7,37 @@ import PhotosListScreen from '../screens/placeholderPhotos/PhotosListScreen';
 import PostsScreen from '../screens/PostsScreen';
 import MapScreen from '../screens/MapScreen';
 import PhotoScreen from '../screens/placeholderPhotos/PhotoScreen'
-import { TouchableOpacity, Text } from 'react-native'
+
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const PhotosAndMapScreen = () => {
   return (
-    <Stack.Navigator initialRouteName="MyPhoto" >
+    <Stack.Navigator initialRouteName="MyPhoto" screenOptions={{
+      headerStyle: {
+        backgroundColor: '#303f9f',
+      },
+      headerTintColor: 'white',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }}>
       <Stack.Screen name="MyPhoto" component={MyPhotosScreen} />
       <Stack.Screen name="Map" component={MapScreen} />
     </Stack.Navigator>
   );
 };
 
+
 const PhotosPlaceholder = () => {
   return (
     <Stack.Navigator initialRouteName="PhotosList" screenOptions={{
       headerStyle: {
-        backgroundColor: 'red',
+        backgroundColor: '#303f9f',
       },
-      headerTintColor: 'black',
+      headerTintColor: 'white',
       headerTitleStyle: {
         fontWeight: 'bold',
       },
@@ -37,6 +47,43 @@ const PhotosPlaceholder = () => {
     </Stack.Navigator >
   )
 }
+
+const PostsNavigatior = () => {
+  return (
+    <Stack.Navigator initialRouteName="PhotosList" screenOptions={{
+      headerStyle: {
+        backgroundColor: '#303f9f',
+      },
+      headerTintColor: 'white',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }}>
+      <Stack.Screen name="Posts" component={PostsScreen} />
+
+    </Stack.Navigator >
+  )
+}
+
+
+const CommentsNavigator = () => {
+  return (
+    <Stack.Navigator initialRouteName="PhotosList" screenOptions={{
+      headerStyle: {
+        backgroundColor: '#303f9f',
+      },
+      headerTintColor: 'white',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }}>
+      <Stack.Screen name="Comments" component={CommentsScreen} />
+
+    </Stack.Navigator >
+  )
+}
+
+
 
 
 export const Navigation = () => {
@@ -54,8 +101,8 @@ export const Navigation = () => {
           fontSize: 15,
         },
       }}>
-      <Tab.Screen name="Posts" component={PostsScreen} />
-      <Tab.Screen name="Comments" component={CommentsScreen} />
+      <Tab.Screen name="Posts" component={PostsNavigatior} />
+      <Tab.Screen name="Comments" component={CommentsNavigator} />
       <Tab.Screen name="Photos" component={PhotosPlaceholder} />
       <Tab.Screen name="MyPhotos" component={PhotosAndMapScreen} />
     </Tab.Navigator>
