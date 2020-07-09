@@ -8,17 +8,15 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
-  Platform
 } from 'react-native';
-// import { SafeAreaView } from 'react-native-safe-area-view';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+
+
 
 const PhotosListScreen = ({ navigation }) => {
 
   const dispatch = useDispatch()
   const imagePlaceholder = useSelector(state => state.photosPlaceholder.data)
   const [orientation, setOrientation] = useState('')
-
 
   const getOrientation = () => {
     if (Dimensions.get('window').width < Dimensions.get('window').height) {
@@ -28,7 +26,12 @@ const PhotosListScreen = ({ navigation }) => {
     }
   }
 
-
+  const calculateEmptyScreen = () => {
+    const widthOfScreen = Dimensions.get('window').width
+    const sizeOfItem = 130
+    const totalItemsOnScreen = widthOfScreen / sizeOfItem
+    return Math.floor(totalItemsOnScreen)
+  }
 
 
   useEffect(() => {
@@ -42,7 +45,7 @@ const PhotosListScreen = ({ navigation }) => {
     dispatch({ type: 'GET_PHOTO' })
   }, [])
 
-  const numOfColumns = orientation === "portrait" ? 3 : 8
+  const numOfColumns = orientation === "portrait" ? 5 : 7
 
   const renderHelper = ({ item, index }) => {
     return (
@@ -59,24 +62,22 @@ const PhotosListScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }} forceInset={{ top: 'always' }}>
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        data={imagePlaceholder}
-        renderItem={renderHelper}
-        keyExtractor={index => index.toString()}
-        key={orientation}
-        numColumns={numOfColumns}
-      />
-    </SafeAreaView>
+
+    <FlatList
+      columnWrapperStyle={{ flexWrap: 'wrap', alignContent: 'flex-start' }}
+      scrollEventThrottle={1900}
+      horizontal={false}
+      data={imagePlaceholder}
+      renderItem={renderHelper}
+      keyExtractor={(item, index) => index}
+      numColumns={calculateEmptyScreen()}
+      key={numOfColumns}
+    />
   );
 };
 
 const styles = StyleSheet.create({
-  // a: {
-  //   flex: 1,
-  //   paddingTop: Platform.OS === 'android' ? 10 : 40
-  // },
+
   container: {
     marginVertical: 10,
     marginHorizontal: 10,
@@ -85,6 +86,11 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignSelf: 'center',
   },
+
+  wrapContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  }
 });
 
 export default PhotosListScreen;

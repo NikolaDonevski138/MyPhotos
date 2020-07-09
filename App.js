@@ -9,6 +9,7 @@ import reducer from './src/redux/reducers';
 import rootSaga from './src/sagas/sagas';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+
 const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(reducer, applyMiddleware(sagaMiddleware));
