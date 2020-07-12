@@ -3,8 +3,23 @@ import {View} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import ListItem from '../components/ListItem';
 
+export interface Post {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+}
+
+export interface PostsState {
+  value: Post[];
+}
+
+interface RootState {
+  posts: PostsState;
+}
+
 const PostsScreen = () => {
-  const posts = useSelector(state => state.posts);
+  const postsData = useSelector((state: RootState) => state.posts);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -13,7 +28,7 @@ const PostsScreen = () => {
 
   return (
     <View>
-      <ListItem data={posts.value} titleText="Title:" text="Post:" />
+      <ListItem data={postsData.value} titleText="Title:" text="Post:" />
     </View>
   );
 };
