@@ -3,10 +3,9 @@ import { View, StyleSheet, Image } from 'react-native'
 import { useSelector } from 'react-redux'
 
 const PhotoScreen = (props) => {
-    console.log(props, 'photoScreen')
     const photoId = props.route.params.idPhoto
     const selectedPhoto = useSelector(state => state.photosPlaceholder.data.find(item => item.id === photoId))
-    console.log(selectedPhoto, 'slika')
+
 
     //selectedPhoto.url
 

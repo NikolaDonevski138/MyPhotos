@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
-import {View} from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
+import React, { useEffect } from 'react';
+import { View } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 import ListItem from '../components/ListItem';
 
 export interface Post {
@@ -23,7 +23,7 @@ const PostsScreen = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({type: 'FETCH_POST'});
+    dispatch({ type: 'FETCH_POST' });
   }, []);
 
   return (

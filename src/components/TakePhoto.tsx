@@ -1,24 +1,80 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
+import {
+  StyleSheet, View, TouchableOpacity, Image, ListRenderItem
+} from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import { useDispatch, useSelector } from 'react-redux';
 import { FlatList } from 'react-native-gesture-handler';
 import Address from './Address';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { Props } from '../screens/MyPhotosScreen'
 
-const TakePhoto = ({ navigation }) => {
+
+interface photoItems {
+  fileName: string;
+  latitude: number;
+  longitude: number;
+  uri: string
+}
+
+interface cameraInfo {
+  cameraInfo: photoItems
+}
+
+interface Photo {
+  photos: cameraInfo[]
+}
+
+
+interface addressItems {
+  display_name: 'string';
+  lat: string;
+  licence: string
+  lon: string
+  place_id: string
+}
+
+interface addressInfo {
+  addressInfo: addressItems
+}
+
+interface AddressData {
+  addresses: addressInfo[]
+}
+
+
+
+interface NavigationParamsTypes {
+  [propName: string]: string;
+
+}
+
+
+interface NavigationParams {
+  (source: string, subString: string): void;
+
+  //latitude: string;
+  //longitude: string;
+  //address: any;
+}
+
+
+const TakePhoto = ({ navigation }: Props) => {
   const [resources, setResources] = useState({});
 
-  const myPhotos = useSelector(state => state.photos);
-  const addresses = useSelector(state => state.addresses);
+  const myPhotos = useSelector((state: Photo) => state.photos);
+  const addresses = useSelector((state: AddressData) => state.addresses);
   const dispatch = useDispatch();
+
 
   useEffect(() => {
     if (Object.keys(resources).length !== 0) {
       dispatch({ type: 'ADD_PHOTO', payload: resources });
     }
   }, [resources]);
+
+  console.log(addresses, 'address')
 
   const imageResource = myPhotos.map(imageData => imageData.cameraInfo);
 
@@ -30,6 +86,7 @@ const TakePhoto = ({ navigation }) => {
         path: 'images',
       },
     };
+
 
     ImagePicker.showImagePicker(options, res => {
       if (res.didCancel) {
@@ -45,7 +102,7 @@ const TakePhoto = ({ navigation }) => {
     });
   };
 
-  const renderHelper = ({ item, index }) => {
+  const renderHelper: ListRenderItem<photoItems> = ({ item, index }) => {
     const { uri, latitude, longitude } = item;
 
     return (
@@ -74,10 +131,10 @@ const TakePhoto = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <FlatList
-        showsVerticalScrollIndicator={false}
+        //showsVerticalScrollIndicaton={false}
         data={imageResource}
         renderItem={renderHelper}
-        keyExtractor={item => item.fileName}
+        keyExtractor={(item) => item.fileName}
       />
       <TouchableOpacity onPress={selectFile} style={styles.icon}>
         <FontAwesomeIcon icon={faPlusCircle} color={'#009688'} size={80} />
