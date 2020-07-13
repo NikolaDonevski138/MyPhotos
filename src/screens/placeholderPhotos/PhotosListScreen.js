@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   View,
   Text,
@@ -10,50 +10,47 @@ import {
   Dimensions,
 } from 'react-native';
 
-
-
-const PhotosListScreen = ({ navigation }) => {
-
-  const dispatch = useDispatch()
-  const imagePlaceholder = useSelector(state => state.photosPlaceholder.data)
-  const [orientation, setOrientation] = useState('')
+const PhotosListScreen = ({navigation}) => {
+  const dispatch = useDispatch();
+  const imagePlaceholder = useSelector(state => state.photosPlaceholder.data);
+  const [orientation, setOrientation] = useState('');
 
   const getOrientation = () => {
     if (Dimensions.get('window').width < Dimensions.get('window').height) {
-      setOrientation('portrait')
+      setOrientation('portrait');
     } else {
-      setOrientation('landscape')
+      setOrientation('landscape');
     }
-  }
+  };
 
   const calculateEmptyScreen = () => {
-    const widthOfScreen = Dimensions.get('window').width
-    const sizeOfItem = 130
-    const totalItemsOnScreen = widthOfScreen / sizeOfItem
-    return Math.floor(totalItemsOnScreen)
-  }
-
+    const widthOfScreen = Dimensions.get('window').width;
+    const sizeOfItem = 130;
+    const totalItemsOnScreen = widthOfScreen / sizeOfItem;
+    return Math.floor(totalItemsOnScreen);
+  };
 
   useEffect(() => {
-    getOrientation()
+    getOrientation();
     Dimensions.addEventListener('change', () => {
-      getOrientation()
-    })
-  }, [orientation])
+      getOrientation();
+    });
+  }, [orientation]);
 
   useEffect(() => {
-    dispatch({ type: 'GET_PHOTO' })
-  }, [])
+    dispatch({type: 'GET_PHOTO'});
+  }, []);
 
-  const numOfColumns = orientation === "portrait" ? 5 : 7
+  const numOfColumns = orientation === 'portrait' ? 5 : 7;
 
-  const renderHelper = ({ item, index }) => {
+  const renderHelper = ({item, index}) => {
     return (
-      <TouchableOpacity onPress={() => navigation.navigate('Photo', { idPhoto: item.id })}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Photo', {idPhoto: item.id})}>
         <View style={styles.container}>
           <Image
-            style={{ width: 110, height: 110, marginBottom: 10 }}
-            source={{ uri: item.thumbnailUrl }}
+            style={{width: 110, height: 110, marginBottom: 10}}
+            source={{uri: item.thumbnailUrl}}
           />
           <Text style={styles.numberOfImage}>{index + 1}</Text>
         </View>
@@ -62,9 +59,8 @@ const PhotosListScreen = ({ navigation }) => {
   };
 
   return (
-
     <FlatList
-      columnWrapperStyle={{ flexWrap: 'wrap', alignContent: 'flex-start' }}
+      columnWrapperStyle={{flexWrap: 'wrap', alignContent: 'flex-start'}}
       scrollEventThrottle={1900}
       horizontal={false}
       data={imagePlaceholder}
@@ -77,7 +73,6 @@ const PhotosListScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-
   container: {
     marginVertical: 10,
     marginHorizontal: 10,
@@ -89,8 +84,8 @@ const styles = StyleSheet.create({
 
   wrapContainer: {
     flexDirection: 'row',
-    flexWrap: 'wrap'
-  }
+    flexWrap: 'wrap',
+  },
 });
 
 export default PhotosListScreen;

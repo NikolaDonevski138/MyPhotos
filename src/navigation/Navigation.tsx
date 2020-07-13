@@ -8,9 +8,15 @@ import PostsScreen from '../screens/PostsScreen';
 import MapScreen from '../screens/MapScreen';
 import PhotoScreen from '../screens/placeholderPhotos/PhotoScreen';
 
+type MapScreenParameters = {
+  uri: string;
+  latitude: number;
+  longitude: number;
+};
+
 export type RootStackParamList = {
   MyPhoto: undefined;
-  Map: undefined;
+  Map: MapScreenParameters;
   PhotosList: undefined;
   Photo: undefined;
   Posts: undefined;

@@ -1,80 +1,62 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
-  StyleSheet, View, TouchableOpacity, Image, ListRenderItem
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Image,
+  ListRenderItem,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import { useDispatch, useSelector } from 'react-redux';
-import { FlatList } from 'react-native-gesture-handler';
+import {useDispatch, useSelector} from 'react-redux';
+import {FlatList} from 'react-native-gesture-handler';
 import Address from './Address';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { Props } from '../screens/MyPhotosScreen'
-
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faPlusCircle} from '@fortawesome/free-solid-svg-icons';
+import {Props} from '../screens/MyPhotosScreen';
 
 interface photoItems {
   fileName: string;
   latitude: number;
   longitude: number;
-  uri: string
+  uri: string;
 }
 
 interface cameraInfo {
-  cameraInfo: photoItems
+  cameraInfo: photoItems;
 }
 
 interface Photo {
-  photos: cameraInfo[]
+  photos: cameraInfo[];
 }
-
 
 interface addressItems {
   display_name: 'string';
   lat: string;
-  licence: string
-  lon: string
-  place_id: string
+  licence: string;
+  lon: string;
+  place_id: string;
 }
 
 interface addressInfo {
-  addressInfo: addressItems
+  addressInfo: addressItems;
 }
 
 interface AddressData {
-  addresses: addressInfo[]
+  addresses: addressInfo[];
 }
 
-
-
-interface NavigationParamsTypes {
-  [propName: string]: string;
-
-}
-
-
-interface NavigationParams {
-  (source: string, subString: string): void;
-
-  //latitude: string;
-  //longitude: string;
-  //address: any;
-}
-
-
-const TakePhoto = ({ navigation }: Props) => {
+const TakePhoto = ({navigation}: Props) => {
   const [resources, setResources] = useState({});
 
   const myPhotos = useSelector((state: Photo) => state.photos);
   const addresses = useSelector((state: AddressData) => state.addresses);
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     if (Object.keys(resources).length !== 0) {
-      dispatch({ type: 'ADD_PHOTO', payload: resources });
+      dispatch({type: 'ADD_PHOTO', payload: resources});
     }
   }, [resources]);
-
-  console.log(addresses, 'address')
 
   const imageResource = myPhotos.map(imageData => imageData.cameraInfo);
 
@@ -86,7 +68,6 @@ const TakePhoto = ({ navigation }: Props) => {
         path: 'images',
       },
     };
-
 
     ImagePicker.showImagePicker(options, res => {
       if (res.didCancel) {
@@ -102,8 +83,8 @@ const TakePhoto = ({ navigation }: Props) => {
     });
   };
 
-  const renderHelper: ListRenderItem<photoItems> = ({ item, index }) => {
-    const { uri, latitude, longitude } = item;
+  const renderHelper: ListRenderItem<photoItems> = ({item, index}) => {
+    const {uri, latitude, longitude} = item;
 
     return (
       <TouchableOpacity
@@ -115,7 +96,7 @@ const TakePhoto = ({ navigation }: Props) => {
           });
         }}>
         <View style={styles.imageContainer}>
-          <Image style={{ width: 150, height: 150 }} source={{ uri }} />
+          <Image style={{width: 150, height: 150}} source={{uri}} />
           <View style={styles.address}>
             <Address
               latitude={latitude}
@@ -131,10 +112,9 @@ const TakePhoto = ({ navigation }: Props) => {
   return (
     <View style={styles.container}>
       <FlatList
-        //showsVerticalScrollIndicaton={false}
         data={imageResource}
         renderItem={renderHelper}
-        keyExtractor={(item) => item.fileName}
+        keyExtractor={item => item.fileName}
       />
       <TouchableOpacity onPress={selectFile} style={styles.icon}>
         <FontAwesomeIcon icon={faPlusCircle} color={'#009688'} size={80} />
@@ -168,14 +148,14 @@ const styles = StyleSheet.create({
     paddingVertical: 30,
     borderBottomColor: '#ccc',
     borderBottomWidth: 2,
-    flex: 1
+    flex: 1,
   },
   address: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 20,
-    width: "50%"
+    width: '50%',
   },
   icon: {
     position: 'absolute',
