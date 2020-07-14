@@ -1,5 +1,25 @@
 import {takeEvery, put, all, fork} from 'redux-saga/effects';
 
+interface photoItems {
+  fileName: string;
+  latitude: number;
+  longitude: number;
+  uri: string;
+}
+
+interface addPhoto {
+  payload: photoItems;
+}
+
+interface AddressCoordinates {
+  latitude: number;
+  longitude: number;
+}
+
+interface Address {
+  payload: AddressCoordinates;
+}
+
 function* postsAsync() {
   try {
     const posts = yield fetch(
@@ -20,7 +40,7 @@ function* commentsAsync() {
   }
 }
 
-function* addPhotoAsync(action) {
+function* addPhotoAsync(action: addPhoto) {
   try {
     yield put({type: 'ADD_PHOTO_ASYNC', payload: action.payload});
   } catch (e) {
@@ -28,7 +48,7 @@ function* addPhotoAsync(action) {
   }
 }
 
-function* addAddressAsync(action) {
+function* addAddressAsync(action: Address) {
   try {
     const response = yield fetch(
       `https://eu1.locationiq.com/v1/reverse.php?key=pk.0ca27b9f7c9d3ecd8767b915f826a8b6&lat=${
@@ -42,7 +62,7 @@ function* addAddressAsync(action) {
   }
 }
 
-function* addMapAsync(action) {
+function* addMapAsync(action: Address) {
   try {
     const response = yield fetch(
       `https://maps.locationiq.com/v2/staticmap?key=pk.0ca27b9f7c9d3ecd8767b915f826a8b6&center=${

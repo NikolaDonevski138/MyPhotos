@@ -14,11 +14,15 @@ type MapScreenParameters = {
   longitude: number;
 };
 
+interface PhotoListScreenParameters {
+  idPhoto: number;
+}
+
 export type RootStackParamList = {
   MyPhoto: undefined;
   Map: MapScreenParameters;
   PhotosList: undefined;
-  Photo: undefined;
+  Photo: PhotoListScreenParameters;
   Posts: undefined;
   Comments: undefined;
 };

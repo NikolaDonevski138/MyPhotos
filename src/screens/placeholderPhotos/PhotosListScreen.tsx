@@ -8,11 +8,45 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
+  ListRenderItem,
 } from 'react-native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RootStackParamList} from '../../navigation/Navigation';
 
-const PhotosListScreen = ({navigation}) => {
+type MyPhotosScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'PhotosList'
+>;
+
+export interface Props {
+  navigation: MyPhotosScreenNavigationProp;
+}
+
+interface imageData {
+  albumId: number;
+  id: number;
+  thumbnailUrl: string;
+  title: string;
+  url: string;
+}
+
+interface data {
+  data: imageData[];
+}
+
+interface RootState {
+  photosPlaceholder: data;
+}
+
+const PhotosListScreen = ({navigation}: Props) => {
   const dispatch = useDispatch();
-  const imagePlaceholder = useSelector(state => state.photosPlaceholder.data);
+  const imagePlaceholder = useSelector(
+    (state: RootState) => state.photosPlaceholder.data,
+  );
+
+  console.log(imagePlaceholder, 'img');
+
+  console.log(imagePlaceholder, 'imggg');
   const [orientation, setOrientation] = useState('');
 
   const getOrientation = () => {
@@ -43,7 +77,8 @@ const PhotosListScreen = ({navigation}) => {
 
   const numOfColumns = orientation === 'portrait' ? 5 : 7;
 
-  const renderHelper = ({item, index}) => {
+  const renderHelper: ListRenderItem<imageData> = ({item, index}) => {
+    console.log(item, 'item');
     return (
       <TouchableOpacity
         onPress={() => navigation.navigate('Photo', {idPhoto: item.id})}>

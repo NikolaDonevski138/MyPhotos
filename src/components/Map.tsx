@@ -1,9 +1,17 @@
 import React, {useEffect} from 'react';
 import {StyleSheet, Image} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-const Map = props => {
+
+interface Props {
+  latitude: number;
+  longitude: number;
+  uri: string;
+}
+
+const Map = (props: Props) => {
   const dispatch = useDispatch();
   const mapResource = useSelector(state => state.map);
+  console.log(mapResource);
   useEffect(() => {
     dispatch({
       type: 'ADD_MAP',
